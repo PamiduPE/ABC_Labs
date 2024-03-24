@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="../css/navigation.css">
 </head>
 <body>
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
-
-    
-    <div class="container">
+<div class="wrapper">
+    <div class="sidebar">
+        <h2>ABC Labs</h2>
         <div class="pro_container">
         <?php if (isset($user_info['username'])): ?>
             <section class="profile_container">
                 <div class="profile_desc_section">
-                    <!-- Add this button where you want the logout button to appear -->
+                    
 <form action="../logout.php" method="post">
     <button type="submit" name="logout">Logout</button>
 </form>
@@ -32,6 +33,25 @@
         <img src="images/male-profile-picture-vector.jpg" class="profile-picture-img" alt="Default Profile Picture">
     <?php endif; ?>
 </div></div></div></div>
+        <ul>
+            <li><a href="patient_dashboard.php"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="show_lab_reports.php"><i class="fas fa-user"></i>My reports</a></li>
+            <li><a href="aboutus.php"><i class="fas fa-address-card"></i>About</a></li>
+        
+        </ul> 
+        <div class="social_media">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="main_content">
+        <div class="header">Welcome!! Have a nice day.</div>  
+        </div>
+</div>
+    
+    <div class="container">
+        
 <br>
 <br>
                     <!-- Appointments -->

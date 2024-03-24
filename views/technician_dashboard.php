@@ -5,9 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appointments</title>
   <link rel="stylesheet" href="../css/styles2.css">
+  <link rel="stylesheet" href="../css/navigation.css">
 </head>
 <body>
-  
+<div class="wrapper">
+    <div class="sidebar">
+        <h2>ABC Labs</h2>
+        
+        <ul>
+            <li><a href="#"><i class="Appointments"></i>Home</a></li>
+            <li><a href="#"><i class="Users"></i>Profile</a></li>
+            <li><a href="#"><i class="Lab Reports"></i>About</a></li>
+
+        </ul> 
+        <div class="social_media">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="main_content">
+        <div class="header">Welcome!! Have a nice day.</div>  
+        </div>
+</div>
   <div class="container">
     <div class="table-container">
       <table class="appointment-table">
