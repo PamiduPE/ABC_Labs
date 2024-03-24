@@ -1,0 +1,183 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+// Include database connection
+require_once('../includes/db_connection.php');
+
+// Fetch user profile information for the logged-in user
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = $user_id";
+$result = mysqli_query($conn, $sql);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    // Retrieve user profile information
+    $user_info = mysqli_fetch_assoc($result);
+
+    // Check if the user is a patient
+    if ($user_info['user_type'] === 'patient') {
+        // Fetch appointments for the logged-in patient
+        $sql = "SELECT * FROM appointments WHERE patient_id = $user_id";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Retrieve appointments
+            $appointments = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } else {
+            // Handle error if no appointments found
+            $error_message = "No appointments scheduled.";
+        }
+
+        // Fetch lab reports for the logged-in patient
+        $sql = "SELECT * FROM lab_reports WHERE patient_id = $user_id";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Retrieve lab reports
+            $lab_reports = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } else {
+            // Handle error if no lab reports found
+            $error_message = "No lab reports available.";
+        }
+
+        // Fetch billing information for the logged-in patient
+        $sql = "SELECT * FROM billing WHERE patient_id = $user_id";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Retrieve billing information
+            $billing_info = mysqli_fetch_assoc($result);
+        } else {
+            // Handle error if no billing information found
+            $error_message = "No billing information available.";
+        }
+    } else {
+        // Redirect to appropriate dashboard based on user type
+        if ($user_info['user_type'] === 'doctor') {
+            header("Location: doctor_dashboard.php");
+            exit;
+        } elseif ($user_info['user_type'] === 'technician') {
+            header("Location: technician_dashboard.php");
+            exit;
+        }
+    }
+} else {
+    // Handle error if no user found
+    $error_message = "User not found.";
+}
+
+// Close database connection
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<<nav>
+  <ul>
+    <li>
+      <a href="#">Home</a>
+    </li>
+    <li>
+      <a href="#">About</a>
+    </li>
+    <li>
+      <a href="#">Services</a>
+    </li>
+    <li>
+      <a href="#">Contact</a>
+    </li>
+  </ul>
+</nav>
+    <div class="container">
+        <?php if (isset($user_info['username'])): ?>
+            <section class="profile_container">
+                <div class="profile_desc_section">
+                    <h1>Welcome, <?php echo $user_info['username']; ?>!</h1>
+                    <!-- Appointments -->
+                    <h2>Your Appointments:</h2>
+                    <?php if (isset($appointments) && count($appointments) > 0): ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Test Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($appointments as $appointment): ?>
+                                    <tr>
+                                        <td><?php echo $appointment['date']; ?></td>
+                                        <td><?php echo $appointment['time']; ?></td>
+                                        <td><?php echo $appointment['test_type']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php else: ?>
+                        <p><?php echo $error_message; ?></p>
+                    <?php endif; ?>
+
+                    <h2>Lab Reports:</h2>
+                    <?php if (isset($lab_reports)): ?>
+                        <ul>
+                            <?php foreach ($lab_reports as $report): ?>
+                                <li><a href="<?php echo $report['report_path']; ?>">Lab Report <?php echo $report['id']; ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p><?php echo $error_message; ?></p>
+                    <?php endif; ?>
+
+                    <h2>Billing Information:</h2>
+                    <?php if (isset($billing_info)): ?>
+                        <p>Total Amount Due: $<?php echo $billing_info['total_amount']; ?></p>
+                    <?php else: ?>
+                        <p><?php echo $error_message; ?></p>
+                    <?php endif; ?>
+                </div>
+            </section>
+        <?php else: ?>
+            <p><?php echo $error_message; ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div class="container">
+        <h2>Add New Appointment</h2>
+        <div class="formbold-main-wrapper">
+            <div class="formbold-form-wrapper">
+                <form action="add_appointment.php" method="POST">
+                    <div class="formbold-mb-5">
+                        <label for="date" class="formbold-form-label">Date</label>
+                        <input type="date" name="date" id="date" class="formbold-form-input" required>
+                    </div>
+                    <div class="formbold-mb-5">
+                        <label for="time" class="formbold-form-label">Time</label>
+                        <input type="time" name="time" id="time" class="formbold-form-input" required>
+                    </div>
+                    <div class="formbold-mb-5">
+                        <label for="test_type" class="formbold-form-label">Test Type</label>
+                        <input type="text" name="test_type" id="test_type" class="formbold-form-input" required>
+                    </div>
+                    <div>
+                        <button class="formbold-btn" type="submit">Add Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
