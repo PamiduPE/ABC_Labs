@@ -13,9 +13,12 @@
         <h2>ABC Labs</h2>
         
         <ul>
-            <li><a href="#"><i class="Appointments"></i>Home</a></li>
-            <li><a href="#"><i class="Users"></i>Profile</a></li>
-            <li><a href="#"><i class="Lab Reports"></i>About</a></li>
+            <li><a href="technician_dashboard.php"><i class="Appointments"></i>Home</a></li>
+            <li><a href="manage_users.php"><i class="Users"></i>Users</a></li>
+            <li><a href="add_lab_report.php"><i class="Lab Reports"></i>Lab Reports</a></li>
+            <form action="../logout.php" method="post">
+    <button type="submit" name="logout">Logout</button>
+</form>
 
         </ul> 
         <div class="social_media">

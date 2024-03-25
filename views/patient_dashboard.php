@@ -54,6 +54,7 @@
         
 <br>
 <br>
+<br><br>
                     <!-- Appointments -->
                     <h2>Your Appointments:</h2>
                     
@@ -91,7 +92,7 @@
             <p><?php echo $error_message; ?></p>
         <?php endif; ?>
     </div>
-
+    <br><br>
     <div class="container">
         <h2>Add New Appointment</h2>
         <div class="formbold-main-wrapper">

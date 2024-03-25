@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Check if user is already logged in
+
 if (isset($_SESSION['user_id'])) {
     switch ($_SESSION['user_type']) {
         case 'patient':
@@ -14,49 +14,48 @@ if (isset($_SESSION['user_id'])) {
             header("Location: views/technician_dashboard.php");
             break;
         default:
-            // Handle unknown user type
+         
             break;
     }
     exit;
 }
 
-// Check if form is submitted
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if form fields are provided
+
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        // Include database connection
+  
         require_once('includes/db_connection.php');
 
-        // Escape user inputs for security
+       
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $password = $_POST['password'];
 
-        // Retrieve user data from database based on username
+        
         $sql = "SELECT * FROM users WHERE username = '$username'";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
-            // Verify password
-            if (password_verify($password, $row['password'])) {
-                // Password is correct, set session variables and redirect
+                     if (password_verify($password, $row['password'])) {
+                
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['user_type'] = $row['user_type'];
                 
-                // Redirect based on user type
+                
                 switch ($row['user_type']) {
                     case 'patient':
                         header("Location: views/patient_dashboard.php");
                         break;
                     case 'doctor':
-                        header("Location: doctor_dashboard.php");
+                        header("Location: views/doctor_dashboard.php");
                         break;
                     case 'technician':
                         header("Location: views/technician_dashboard.php");
                         break;
                     default:
-                        // Handle unknown user type
+                       
                         break;
                 }
                 exit;
@@ -67,10 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Invalid username or password.";
         }
 
-        // Close database connection
+    
         mysqli_close($conn);
     } else {
-        // Handle invalid login attempt
+   
         $error_message = "Both username and password are required.";
     }
 }

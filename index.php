@@ -142,7 +142,7 @@
         </div>
         <div class="hero">
             <h1>Welcome to ABC Labs...</h1>
-            <p>Where quality meets service.</p>
+            <p>Where quality meets service...</p>
             <a href="views/Patient_dashboard.php" class="btn">Make an appointment</a>
         </div>
         <div class="features">

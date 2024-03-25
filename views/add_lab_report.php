@@ -25,6 +25,7 @@ mysqli_close($conn);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Lab Report</title>
   <link rel="stylesheet" href="../css/lab_rp.css">
+  <link rel="stylesheet" href="../css/navigation.css">
   <script>
 
     function showPatientImage() {
@@ -46,22 +47,27 @@ mysqli_close($conn);
 </head>
 
 <body>
-  <nav>
-    <ul>
-      <li>
-        <a href="#">Home</a>
-      </li>
-      <li>
-        <a href="#">About</a>
-      </li>
-      <li>
-        <a href="#">Services</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
-  </nav>
+<div class="wrapper">
+    <div class="sidebar">
+        <h2>ABC Labs</h2>
+        
+        <ul>
+            <li><a href="technician_dashboard.php"><i class="Appointments"></i>Home</a></li>
+            <li><a href="manage_users.php"><i class="Users"></i>Users</a></li>
+            <li><a href="add_lab_report.php"><i class="Lab Reports"></i>Lab Reports</a></li>
+            
+
+        </ul> 
+        <div class="social_media">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="main_content">
+        <div class="header">Welcome!! Have a nice day.</div>  
+        </div>
+</div>
   <div class="container">
     <h1>Add New Lab Report</h1>
     <form action="lab_report_logic.php" method="POST" enctype="multipart/form-data"> <div>
@@ -94,10 +100,7 @@ mysqli_close($conn);
         <label for="report_file">Report File (PDF):</label>
         <input type="file" name="report_file" id="report_file" accept="application/pdf" required>
       </div>
-      <div>
-        <label for="doctor_response">Doctor Response:</label>
-        <textarea name="doctor_response" id="doctor_response" rows="4" required></textarea>
-      </div>
+      
       <button type="submit">Submit</button>
     </form>
 
